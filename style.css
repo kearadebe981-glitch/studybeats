@@ -1,0 +1,219 @@
+/* StudyBeats
+   Everything interactive here is done with CSS only:
+   - hidden radio buttons track the chosen mood
+   - the general sibling selector (~) shows the matching panel and background
+   - a hidden checkbox starts the break timer animation */
+
+:root {
+    --ink: #1B1530;
+    --card: rgba(255, 255, 255, 0.92);
+    --text: #1B1530;
+    --muted: #5A5470;
+}
+
+* { box-sizing: border-box; }
+
+html, body { height: 100%; }
+
+body {
+    margin: 0;
+    font-family: "Trebuchet MS", "Segoe UI", Arial, sans-serif;
+    color: var(--text);
+    line-height: 1.55;
+}
+
+/* Visually hidden but still keyboard-focusable */
+.sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    border: 0;
+}
+
+.app {
+    position: relative;
+    min-height: 100%;
+    padding: 36px 20px 40px;
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+/* Animated colourful background, changes with the mood */
+.bg {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(120deg, #7C5CFF, #FF6FB5, #FFB24D, #7C5CFF);
+    background-size: 300% 300%;
+    animation: drift 14s ease infinite;
+}
+
+#m-focus:checked ~ .bg    { background: linear-gradient(120deg, #2B6CFF, #19C6D9, #7C5CFF, #2B6CFF); background-size: 300% 300%; }
+#m-tired:checked ~ .bg    { background: linear-gradient(120deg, #FFB24D, #FF8A5C, #FFD86B, #FFB24D); background-size: 300% 300%; }
+#m-stressed:checked ~ .bg { background: linear-gradient(120deg, #3DBE9A, #5B9BFF, #A6E3C9, #3DBE9A); background-size: 300% 300%; }
+#m-happy:checked ~ .bg    { background: linear-gradient(120deg, #FF4FA3, #FFB24D, #FFE066, #FF4FA3); background-size: 300% 300%; }
+#m-down:checked ~ .bg     { background: linear-gradient(120deg, #6C7BD9, #B28DFF, #8FC1FF, #6C7BD9); background-size: 300% 300%; }
+
+@keyframes drift {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.top { text-align: center; color: #fff; margin-bottom: 22px; text-shadow: 0 2px 10px rgba(27, 21, 48, 0.45); }
+.top h1 { margin: 0 0 6px; font-size: 40px; letter-spacing: 0.5px; }
+.top h1 span { color: #FFE066; }
+.top p { margin: 0; font-size: 16px; opacity: 0.95; }
+
+/* Mood buttons */
+.moods {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 22px;
+}
+
+.moods label {
+    background: rgba(255, 255, 255, 0.25);
+    color: #fff;
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    padding: 10px 18px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 15px;
+    transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.moods label:hover { transform: translateY(-2px) scale(1.04); background: rgba(255, 255, 255, 0.4); }
+
+#m-focus:checked ~ .moods label[for="m-focus"],
+#m-tired:checked ~ .moods label[for="m-tired"],
+#m-stressed:checked ~ .moods label[for="m-stressed"],
+#m-happy:checked ~ .moods label[for="m-happy"],
+#m-down:checked ~ .moods label[for="m-down"] {
+    background: #fff;
+    color: var(--ink);
+    border-color: #fff;
+}
+
+/* Keyboard focus outline for the hidden radios */
+#m-focus:focus-visible ~ .moods label[for="m-focus"],
+#m-tired:focus-visible ~ .moods label[for="m-tired"],
+#m-stressed:focus-visible ~ .moods label[for="m-stressed"],
+#m-happy:focus-visible ~ .moods label[for="m-happy"],
+#m-down:focus-visible ~ .moods label[for="m-down"] {
+    outline: 3px solid #FFE066;
+    outline-offset: 3px;
+}
+
+/* Panels: only the one matching the chosen mood is visible */
+.panel {
+    display: none;
+    background: var(--card);
+    border-radius: 16px;
+    padding: 24px 22px;
+    box-shadow: 0 10px 30px rgba(20, 10, 50, 0.25);
+    animation: pop 0.35s ease;
+}
+
+.panel h2 { margin: 0 0 10px; font-size: 22px; }
+.panel p { margin: 0 0 12px; }
+.panel .tip { color: var(--muted); font-size: 14.5px; border-left: 4px solid #FFB24D; padding-left: 12px; }
+
+#m-start:checked   ~ .stage .p-start,
+#m-focus:checked   ~ .stage .p-focus,
+#m-tired:checked   ~ .stage .p-tired,
+#m-stressed:checked ~ .stage .p-stressed,
+#m-happy:checked   ~ .stage .p-happy,
+#m-down:checked    ~ .stage .p-down { display: block; }
+
+@keyframes pop {
+    from { opacity: 0; transform: translateY(10px) scale(0.98); }
+    to   { opacity: 1; transform: none; }
+}
+
+.links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 6px; }
+.links a {
+    background: var(--ink);
+    color: #fff;
+    text-decoration: none;
+    padding: 9px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+}
+.links a:hover { background: #3A2E6B; }
+
+/* Break timer */
+.timer {
+    margin-top: 22px;
+    background: var(--card);
+    border-radius: 16px;
+    padding: 22px;
+    box-shadow: 0 10px 30px rgba(20, 10, 50, 0.25);
+}
+
+.timer h2 { margin: 0 0 12px; font-size: 20px; }
+
+.t-btn {
+    display: inline-block;
+    background: var(--ink);
+    color: #fff;
+    padding: 11px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.t-btn .off { display: none; }
+#t-toggle:checked ~ .timer .t-btn .on  { display: none; }
+#t-toggle:checked ~ .timer .t-btn .off { display: inline; }
+#t-toggle:focus-visible ~ .timer .t-btn { outline: 3px solid #FFB24D; outline-offset: 3px; }
+
+.track {
+    height: 14px;
+    background: #E6E1F5;
+    border-radius: 999px;
+    overflow: hidden;
+    margin: 16px 0 8px;
+}
+
+.bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #7C5CFF, #FF6FB5, #FFB24D);
+    border-radius: 999px;
+}
+
+#t-toggle:checked ~ .timer .bar { animation: fill 300s linear forwards; }
+
+@keyframes fill {
+    from { width: 0%; }
+    to   { width: 100%; }
+}
+
+.t-note { margin: 0; color: var(--muted); font-size: 13.5px; }
+
+.done { margin: 12px 0 0; font-weight: 700; opacity: 0; }
+#t-toggle:checked ~ .timer .done { animation: reveal 0s linear 300s forwards; }
+
+@keyframes reveal { to { opacity: 1; } }
+
+footer { text-align: center; color: #fff; font-size: 13px; margin-top: 26px; text-shadow: 0 1px 6px rgba(27, 21, 48, 0.5); }
+
+@media (prefers-reduced-motion: reduce) {
+    .bg { animation: none; }
+    .panel { animation: none; }
+}
+
+@media (max-width: 480px) {
+    .top h1 { font-size: 34px; }
+    .moods label { padding: 9px 14px; font-size: 14px; }
+}

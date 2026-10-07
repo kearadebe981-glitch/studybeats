@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>StudyBeats</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app">
+
+  <!-- Hidden radio buttons: the selected mood drives everything below using CSS only -->
+  <input type="radio" name="mood" id="m-start" class="sr" checked>
+  <input type="radio" name="mood" id="m-focus" class="sr">
+  <input type="radio" name="mood" id="m-tired" class="sr">
+  <input type="radio" name="mood" id="m-stressed" class="sr">
+  <input type="radio" name="mood" id="m-happy" class="sr">
+  <input type="radio" name="mood" id="m-down" class="sr">
+
+  <div class="bg" aria-hidden="true"></div>
+
+  <header class="top">
+    <h1>Study<span>Beats</span></h1>
+    <p>How are you feeling? Pick a mood and get something to study to.</p>
+  </header>
+
+  <nav class="moods" aria-label="Choose your mood">
+    <label for="m-focus">Focused</label>
+    <label for="m-tired">Tired</label>
+    <label for="m-stressed">Stressed</label>
+    <label for="m-happy">Happy</label>
+    <label for="m-down">A bit down</label>
+  </nav>
+
+  <section class="stage" aria-live="polite">
+
+    <div class="panel p-start">
+      <h2>Pick a mood above</h2>
+      <p>StudyBeats suggests a sound for your study session and a tip to go with it.</p>
+    </div>
+
+    <div class="panel p-focus">
+      <h2>Lo-fi beats and instrumental focus</h2>
+      <p>Steady, lyric-free music that keeps your brain on the task without grabbing your attention.</p>
+      <p class="tip">Tip: study for 25 minutes, then take a 5-minute break below.</p>
+      <div class="links">
+        <a href="https://open.spotify.com/search/lofi%20study%20beats" target="_blank" rel="noopener">Search on Spotify</a>
+        <a href="https://www.youtube.com/results?search_query=lofi+study+beats" target="_blank" rel="noopener">Search on YouTube</a>
+      </div>
+    </div>
+
+    <div class="panel p-tired">
+      <h2>Upbeat acoustic and light pop</h2>
+      <p>Gentle energy to wake you up without overwhelming you.</p>
+      <p class="tip">Tip: drink some water and stand up for a minute before you start.</p>
+      <div class="links">
+        <a href="https://open.spotify.com/search/upbeat%20acoustic%20morning" target="_blank" rel="noopener">Search on Spotify</a>
+        <a href="https://www.youtube.com/results?search_query=upbeat+acoustic+study+music" target="_blank" rel="noopener">Search on YouTube</a>
+      </div>
+    </div>
+
+    <div class="panel p-stressed">
+      <h2>Ambient sounds, soft piano and rain</h2>
+      <p>Slow, calm sound to bring your pace down when everything feels like too much.</p>
+      <p class="tip">Tip: breathe in for 4 seconds, out for 6. Repeat five times, then start with the smallest task.</p>
+      <div class="links">
+        <a href="https://open.spotify.com/search/soft%20piano%20calm" target="_blank" rel="noopener">Search on Spotify</a>
+        <a href="https://www.youtube.com/results?search_query=calm+piano+rain+study" target="_blank" rel="noopener">Search on YouTube</a>
+      </div>
+    </div>
+
+    <div class="panel p-happy">
+      <h2>Feel-good pop and amapiano</h2>
+      <p>Ride the good mood. Great for lighter tasks like organising notes or reviewing.</p>
+      <p class="tip">Tip: use the good energy for the topic you've been avoiding.</p>
+      <div class="links">
+        <a href="https://open.spotify.com/search/feel%20good%20amapiano" target="_blank" rel="noopener">Search on Spotify</a>
+        <a href="https://www.youtube.com/results?search_query=feel+good+amapiano+mix" target="_blank" rel="noopener">Search on YouTube</a>
+      </div>
+    </div>
+
+    <div class="panel p-down">
+      <h2>Gentle acoustic and comforting classics</h2>
+      <p>Warm, familiar sound for days when motivation is low.</p>
+      <p class="tip">Tip: aim for one small win. Even 15 minutes counts, and a short walk afterwards helps.</p>
+      <div class="links">
+        <a href="https://open.spotify.com/search/gentle%20acoustic%20comfort" target="_blank" rel="noopener">Search on Spotify</a>
+        <a href="https://www.youtube.com/results?search_query=gentle+acoustic+comfort+music" target="_blank" rel="noopener">Search on YouTube</a>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- Break timer: the hidden checkbox starts a 5-minute CSS animation -->
+  <input type="checkbox" id="t-toggle" class="sr">
+
+  <section class="timer">
+    <h2>Break timer</h2>
+    <label for="t-toggle" class="t-btn">
+      <span class="on">Start 5-minute break</span>
+      <span class="off">Reset timer</span>
+    </label>
+    <div class="track" aria-hidden="true"><div class="bar"></div></div>
+    <p class="t-note">The bar fills over 5 minutes.</p>
+    <p class="done">Break's over. Back to it!</p>
+  </section>
+
+  <footer>Made by Keamogetswe Radebe. Built with HTML and CSS only.</footer>
+
+</div>
+
+</body>
+</html>
